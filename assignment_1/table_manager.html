@@ -224,11 +224,11 @@ for(var s = 0; s < headerArray.length; s++){
 tableBody.appendChild(headerRow);
 
 //Loops through the JSON array for values and stores them into rows
-for(var p = 0; p < organizations.length; p++){
+for(var i = 0; i < organizations.length; i++){
 	var row = document.createElement("tr");
-	for(var q = 0; q < headerArray.length; q++){
+	for(var key in organizations[i]){
 		var cell = document.createElement("td");
-		var text = document.createTextNode(organizations[p][headerArray[q]]);
+		var text = document.createTextNode(organizations[i][key]);
 		cell.appendChild(text);
 		row.appendChild(cell);
 	}
@@ -241,40 +241,62 @@ document.body.appendChild(table);
 </script>
 
 <script>
+	//Code for Questions 1-5 populated in a table
+	var nonProfitCount = 0; //Q1
+	var newerOrgCount = 0; //Q2
+	var naOrgCount = 0; //Q3
+	var transportDataCount = 0; //Q4
 
-var answers = document.getElementById("questions");
-var tableBody = document.createElement("table");
+	for(var i = 0; i < organizations.length; i++){
+		for(var key in organizations[i]){
+			if(key == "Organization Type" && organizations[i][key] == "Nonprofit"){
+				nonProfitCount++;
+			}
+			else if(key == "Founding Year" && organizations[i][key] > (2018 - 10)){
+				newerOrgCount++;
+			}
+			else if(key == "Region" && organizations[i][key] == "North America"){
+				naOrgCount++;
+			}
+			else if(key == "Type of Data Used" && organizations[i][key].includes("Transportation")){
+				transportDataCount++;
+			}
+		}
+	}
 
-var questionHeaders = ["Q1","Q2","Q3","Q4","Q5"];
-var responses = ["There are 2 nonprofit organizations.",
-"There are 8 organizations that is less than 10 years old.",
-"There are 6 North American organization.",
-"3 organizations use transportation data.",
-"It's interesting how older organizations have more employees in comparison to newer ones with less employees. The difference in amount of employees is pretty significant. (i.e. newer ones are between 1-50 employees whereas older ones have 51-1000+ employees)."];
+	var answers = document.getElementById("questions");
+	var tableBody = document.createElement("table");
 
-var headerRow = document.createElement("tr")
+	var questionHeaders = ["Q1","Q2","Q3","Q4","Q5"];
+	var responses = [nonProfitCount + " organizations are nonprofit",
+	newerOrgCount + " organizations are less than 10 years old",
+	naOrgCount + " organizations are from North America",
+	transportDataCount + " organizations use transportation data",
+	"It's interesting how older organizations have more employees in comparison to newer ones with less employees. The difference in amount of employees is pretty significant. (i.e. newer ones are between 1-50 employees whereas older ones have 51-1000+ employees)."];
 
-for(var i = 0; i < questionHeaders.length; i++){
-	var header = document.createElement("th");
-	var text = document.createTextNode(questionHeaders[i]);
-	header.appendChild(text);
-	headerRow.appendChild(header);
-}
+	var headerRow = document.createElement("tr")
 
-tableBody.appendChild(headerRow);
+	for(var i = 0; i < questionHeaders.length; i++){
+		var header = document.createElement("th");
+		var text = document.createTextNode(questionHeaders[i]);
+		header.appendChild(text);
+		headerRow.appendChild(header);
+	}
 
-var answerRow = document.createElement("tr");
+	tableBody.appendChild(headerRow);
 
-for(var p = 0; p < responses.length; p++){
-	var cell = document.createElement("td");
-	var text = document.createTextNode(responses[p]);
+	var answerRow = document.createElement("tr");
 
-	cell.append(text);
-	answerRow.append(cell);
-}
+	for(var p = 0; p < responses.length; p++){
+		var cell = document.createElement("td");
+		var text = document.createTextNode(responses[p]);
 
-tableBody.appendChild(answerRow);
-document.body.appendChild(tableBody);
+		cell.append(text);
+		answerRow.append(cell);
+	}
+
+	tableBody.appendChild(answerRow);
+	document.body.appendChild(tableBody);
 
 </script>
 
